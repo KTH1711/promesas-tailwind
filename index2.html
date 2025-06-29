@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simulador de Promesas JS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-purple-700 via-purple-500 to-purple-300 min-h-screen flex flex-col lg:flex-row text-gray-900">
+
+  <!-- Menú lateral -->
+  <aside class="bg-white shadow-xl w-full lg:w-1/4 p-4 overflow-y-auto">
+    <h2 class="text-2xl font-bold text-purple-700 mb-4">Simulaciones</h2>
+    <div id="menu-simulaciones" class="space-y-2">
+      <!-- Aquí se insertan los botones desde JS -->
+    </div>
+  </aside>
+
+  <!-- Panel de simulación -->
+  <main class="flex-1 p-6">
+    <div class="bg-white shadow-md rounded-2xl p-6">
+      <h2 id="simulation-title" class="text-2xl font-semibold text-purple-800 mb-2">Selecciona una simulación</h2>
+      <p id="simulation-description" class="text-gray-600 mb-4">Descripción aparecerá aquí</p>
+
+      <div id="control-inputs" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6"></div>
+
+      <div class="flex flex-wrap gap-4 mb-6">
+        <button id="run-simulation" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50" disabled>▶️ Ejecutar</button>
+        <button id="clear-output" class="bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-2 px-4 rounded">🧹 Limpiar salida</button>
+      </div>
+
+      <div id="output-area" class="bg-gray-100 rounded-lg p-4 max-h-72 overflow-y-auto text-sm space-y-2 font-mono"></div>
+    </div>
+  </main>
+
+  <script src="scriphtml2.js"></script>
+ <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const tryInitMenu = () => {
+      if (typeof simulations === "undefined") {
+        setTimeout(tryInitMenu, 100);
+        return;
+      }
+      const menu = document.getElementById("menu-simulaciones");
+      for (let key in simulations) {
+        const btn = document.createElement("button");
+        btn.className = "simulation-btn w-full text-left px-4 py-2 rounded-lg hover:bg-purple-100 transition";
+        btn.setAttribute("data-sim", key);
+        btn.innerText = `▶️ ${simulations[key].title}`;
+        menu.appendChild(btn);
+      }
+    };
+
+    tryInitMenu();
+  });
+</script>
+
+
+  <style>
+    .output-line { padding: 4px; border-left: 4px solid transparent; }
+    .output-line.info    { border-color: #a78bfa; color: #4c1d95; }
+    .output-line.success { border-color: #10b981; color: #065f46; }
+    .output-line.error   { border-color: #ef4444; color: #7f1d1d; }
+    .status-indicator {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+    .status-info    { background-color: #a78bfa; }
+    .status-success { background-color: #10b981; }
+    .status-error   { background-color: #ef4444; }
+    input {
+      @apply w-full px-3 py-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500;
+    }
+    label {
+      @apply block mb-1 text-sm font-medium text-purple-800;
+    }
+    .input-group {
+      @apply mb-4;
+    }
+  </style>
+</body>
+</html>
